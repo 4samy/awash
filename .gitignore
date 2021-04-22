@@ -1,0 +1,30 @@
+#### Vim related files.
+
+*.swp
+*.vim
+
+#### Python related files.
+
+.cache/
+*.pyc
+__pycache__/
+
+#### Folders to exclude.
+
+tmp/
+venv/
+.pytest_cache/
+
+#### Database files.
+
+*.db
+
+#### Misc
+
+.DS_Store
+TODO.txt
+env.sh
+.env
+.fuse*
+
+celerybeat-schedule
