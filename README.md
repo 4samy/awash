@@ -61,5 +61,10 @@ Install PIP dependencies (be sure you're in your virtual environment!):
 
 	(venv) $ pip3 install -r requirements.txt
 
+## Start it up
 
+In terminal inside project directory,:
+
+	$ source env.sh
+	(venv) $ flask run --port 8002
 
