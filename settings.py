@@ -9,6 +9,7 @@ env.read_envfile()
 DEBUG = env("DEBUG", default="no", cast=bool)
 
 ENABLED_MODULES = [
+    "test",
 
     "api" # This always has to be last
 ]
