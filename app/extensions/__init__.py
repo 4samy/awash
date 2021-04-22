@@ -14,7 +14,8 @@ from .api import api
 
 def init_app(app):
 
-    print("teasdfasdf")
+    print("extensions init")
+
     extensions = (
         cors,
         db
