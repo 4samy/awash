@@ -8,7 +8,8 @@ test_api = Namespace(
     description="test endpoint"
 )
 
+
 def init_app(app):
-    from . import resources
+    from . import resources  # noqa: 401
     api.add_namespace(test_api)
 

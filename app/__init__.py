@@ -1,10 +1,15 @@
 import flask
-import logging
 import settings
 
 from flask_socketio import SocketIO
 
+from app.middlewares import (
+    BasicAuthenticationMiddleware,
+    JWTAuthenticationMiddleware
+)
+
 socketio = SocketIO()
+
 
 def create_app(log_info=True, **kwargs):
 
@@ -28,6 +33,13 @@ def create_app(log_info=True, **kwargs):
     app.logger.info("Successfully loaded modules: {}".format(
         settings.ENABLED_MODULES
     ))
+
+    app.before_request_funcs = {
+        None: [
+            BasicAuthenticationMiddleware(app),
+            JWTAuthenticationMiddleware(app)
+        ]
+    }
 
     app.logger.info("App is up and running!")
 

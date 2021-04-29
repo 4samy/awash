@@ -12,6 +12,7 @@ migrate = flask_migrate.Migrate()
 
 from .api import api
 
+
 def init_app(app):
 
     print("extensions init")

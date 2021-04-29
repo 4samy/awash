@@ -9,29 +9,27 @@ from app.extensions import db
 from app.jwt import generate_token, validate_token
 
 
-class Driver(db.Model):
-    __tablename__ = "drivers"
+class Restaurant(db.Model):
+    __tablename__ = "restaurants"
 
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(254), nullable=False, unique=True)
-    first_name = db.Column(db.String(40), nullable=False)
-    last_name = db.Column(db.String(40), nullable=True)
     password = db.Column(db.LargeBinary(60), nullable=False)
+    address = db.Column(db.Text, nullable=True)
     phone_number = db.Column(db.Integer, nullable=True)
-    car_description = db.Column(db.Text, nullable=True)
-    reward_points = db.Column(db.Integer, nullable=False, default=0)
+    name = db.Column(db.String(60), nullable=False)
 
     def __init__(self, **kwargs):
-        super(Driver, self).__init__(**kwargs)
+        super(Restaurant, self).__init__(**kwargs)
 
         self.email = self.email.strip()
-        self.first_name = self.first_name.strip()
+        self.name = self.name.strip()
         self.password = bcrypt.hashpw(
             self.password.encode(), bcrypt.gensalt()
         )
 
     def __repr__(self):
-        return f"<Driver id: {self.id} {self.email}>"
+        return f"<Restaurant id: {self.id} {self.email}>"
 
     def verify_password(self, password):
         """Returns True if this password matches for this User."""
@@ -51,8 +49,8 @@ class Driver(db.Model):
             exp = settings.TOKEN_TYPES["session"]["expires_in"]
 
         payload = {
-            "driver_id": self.id,
-            "is_driver": True
+            "restaurant_id": self.id,
+            "is_driver": False
         }
         token = generate_token(payload, "session", expires_in=exp)
 
@@ -77,8 +75,8 @@ class Driver(db.Model):
         """Returns a User object corresponding with this username or email or id"""
 
         if isinstance(user_identity, int):
-            return Driver.query.get(user_identity)
+            return Restaurant.query.get(user_identity)
 
-        return Driver.query.filter(
-            Driver.email.ilike(user_identity)
+        return Restaurant.query.filter(
+            Restaurant.email.ilike(user_identity)
         ).first()
