@@ -33,15 +33,21 @@ class Authentication(Resource):
             if not auth or not ("email" in auth and "password" in auth):
                 abort(401, "Missing authentication credentials")
 
-        if auth["is_driver"]:
-            # if it is a driver
-            user = Driver.identify(auth["email"])
-            password = auth["password"]
+        # if auth["is_driver"]:
+        #     # if it is a driver
+        #     user = Driver.identify(auth["email"])
+        #     password = auth["password"]
 
-        else:
-            # If it is a restaurant
+        # else:
+        #     # If it is a restaurant
+        #     user = Restaurant.identify(auth["email"])
+        #     password = auth["password"]
+
+        user = Driver.identify(auth["email"])
+        password = auth["password"]
+
+        if not user:
             user = Restaurant.identify(auth["email"])
-            password = auth["password"]
 
         if not user or not user.verify_password(password):
             current_app.logger.warn(

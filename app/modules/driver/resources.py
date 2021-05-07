@@ -1,4 +1,4 @@
-from flask import g, request
+from flask import g, request, make_response
 from flask_restplus import Resource
 
 from app.extensions import db
@@ -30,7 +30,7 @@ class CreateDriver(Resource):
         else:
             abort(400, 'Missing email')
 
-        return "Success"
+        return make_response("Success", 200)
 
 
 @driver_api.route("/info")
