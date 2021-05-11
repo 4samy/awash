@@ -26,10 +26,10 @@ class CreateRestaurant(Resource):
             if Restaurant.query.filter_by(email=email).scalar():
                 abort(400, f"Restaurant with email '{email}' already exists")
             else:
-                # new_user = Restaurant(**data)
+                new_user = Restaurant(**data)
                 pass
-                # db.session.add(new_user)
-                # db.session.commit()
+                db.session.add(new_user)
+                db.session.commit()
 
                 print(f"Restaurant '{email}' successfully created")
 

@@ -18,6 +18,8 @@ class Restaurant(db.Model):
     address = db.Column(db.Text, nullable=True)
     phone_number = db.Column(db.Integer, nullable=True)
     name = db.Column(db.String(60), nullable=False)
+    food_request = db.relationship('FoodRequest', backref='restaurant', lazy=True)
+    rewards = db.relationship('Rewards', backref='restaurant', lazy=True)
 
     def __init__(self, **kwargs):
         super(Restaurant, self).__init__(**kwargs)
