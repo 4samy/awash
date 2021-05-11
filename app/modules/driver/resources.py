@@ -6,6 +6,7 @@ from app.extensions.api import abort
 
 from . import driver_api
 from .models import Driver
+from app.modules.restaurant.models import Restaurant
 from app.decorators import requires_auth
 
 
@@ -15,22 +16,27 @@ class CreateDriver(Resource):
     def post(self):
         """Add new Driver object to database"""
 
-        data = request.json
+        data = request.get_json(force=True)
+        print("request", request.get_json(force=True))
+        print("data: ", data)
         if 'email' in data.keys():
             email = data['email']
             if Driver.query.filter_by(email=email).scalar():
-                abort(400, f"User with email '{email}' already exists")
+                abort(400, f"Driver with email '{email}' already exists")
+            if Restaurant.query.filter_by(email=email).scalar():
+                abort(400, f"Restaurant with email '{email}' already exists")
             else:
-                new_user = Driver(**data)
-                db.session.add(new_user)
-                db.session.commit()
+                # new_user = Driver(**data)
+                pass
+                # db.session.add(new_user)
+                # db.session.commit()
 
                 print(f"User '{email}' successfully created")
 
         else:
             abort(400, 'Missing email')
 
-        return make_response("Success", 200)
+        return make_response(f"Driver {email} account successfully created", 200)
 
 
 @driver_api.route("/info")

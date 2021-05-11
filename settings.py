@@ -22,7 +22,8 @@ ENABLED_MODULES = [
     "auth",
     "driver",
     "restaurant",
-    # "food_request",
+    "food_request",
+    "rewards",
     "test",
 
     "api"  # This always has to be last

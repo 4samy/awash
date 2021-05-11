@@ -8,24 +8,30 @@ class FoodRequest(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     restaurant_id = db.Column(
-        db.Integer, db.ForeignKey("restaurants"),
+        db.Integer, db.ForeignKey("restaurants.id"),
         nullable=False
     )
-    restaurant = db.relationship("Restaurant", lazy="subquery")
+    # restaurant = db.relationship("Restaurant", lazy="subquery")
     driver_id = db.Column(
-        db.Integer, db.ForeignKey("drivers"),
+        db.Integer, db.ForeignKey("drivers.id"),
         nullable=True
     )
-    driver = db.relationship("Driver", lazy="subquery")
+    # driver = db.relationship("Driver", lazy="subquery")
     date_created = db.Column(db.DateTime(timezone=True))
     delivered = db.Column(db.Boolean, nullable=False, default=False)
     point_value = db.Column(db.Integer, nullable=False, default=0)
+    driver_eta_restaurant = db.Column(db.Integer)
+    driver_eta_dropoff = db.Column(db.Integer)
 
     @staticmethod
     def identify(food_request_id):
         return FoodRequest.query.get(food_request_id)
 
+    # def __init__(self, **kwargs):
+    #     """Creates Food Request Object"""
 
+    def __repr__(self):
+        return f"<Food Request id: {self.id}>"
 
 
 

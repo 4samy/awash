@@ -8,7 +8,7 @@ from app.decorators import requires_auth
 @test_api.route("/")
 class TestApiEndpoint(Resource):
 
-    decorators = [requires_auth]
+    # decorators = [requires_auth]
 
     def get(self):
         print("Test endpoint successfully reached")

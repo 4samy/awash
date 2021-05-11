@@ -20,6 +20,7 @@ class Driver(db.Model):
     phone_number = db.Column(db.Integer, nullable=True)
     car_description = db.Column(db.Text, nullable=True)
     reward_points = db.Column(db.Integer, nullable=False, default=0)
+    food_requests = db.relationship('FoodRequest', backref="food_requests", lazy=True)
 
     def __init__(self, **kwargs):
         super(Driver, self).__init__(**kwargs)
