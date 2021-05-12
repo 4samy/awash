@@ -16,6 +16,10 @@ class Authentication(Resource):
         authentication is strictly enforced; no other methods should work.
         """
 
+        data = request.get_json()
+        # data = request.data
+        print("data: ", data)
+
         arg_parser = reqparse.RequestParser()
         arg_parser.add_argument(
             "exp",
@@ -26,10 +30,16 @@ class Authentication(Resource):
 
         args = arg_parser.parse_args()
 
+        print(args)
+
         auth = request.authorization
+        print("auth req: ", auth)
         if not auth:
             # Try extracting from POST body
+            print("here")
             auth = request.get_json()
+            print("here")
+            print("auth: ", auth)
             if not auth or not ("email" in auth and "password" in auth):
                 abort(401, "Missing authentication credentials")
 
@@ -43,11 +53,14 @@ class Authentication(Resource):
         #     user = Restaurant.identify(auth["email"])
         #     password = auth["password"]
 
+        is_driver = True
+
         user = Driver.identify(auth["email"])
         password = auth["password"]
 
         if not user:
             user = Restaurant.identify(auth["email"])
+            is_driver = False
 
         if not user or not user.verify_password(password):
             current_app.logger.warn(
@@ -65,4 +78,9 @@ class Authentication(Resource):
             *request.access_route
         ))
 
+        access_token.update({
+            "is_driver": is_driver
+        })
+
+        # return resp, 200
         return access_token

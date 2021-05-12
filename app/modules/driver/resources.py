@@ -26,10 +26,10 @@ class CreateDriver(Resource):
             if Restaurant.query.filter_by(email=email).scalar():
                 abort(400, f"Restaurant with email '{email}' already exists")
             else:
-                # new_user = Driver(**data)
+                new_user = Driver(**data)
                 pass
-                # db.session.add(new_user)
-                # db.session.commit()
+                db.session.add(new_user)
+                db.session.commit()
 
                 print(f"User '{email}' successfully created")
 
