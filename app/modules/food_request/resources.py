@@ -60,13 +60,13 @@ class CreateNewFoodRequest(Resource):
             food_request = {}
             food_request["restaurant_id"] = user.id
             food_request["food_type"] = data["food_type"]
-            food_request["food_quantity"] = data["food_quantity"]
+            food_request["food_quantity"] = data["quantity"]
             food_request["pickup_time"] = data["pickup_time"]
 
         except KeyError:
             abort(400, "Missing necessary data")
 
-        new_food_request = FoodRequest(food_request)
+        new_food_request = FoodRequest(**food_request)
 
         db.session.add(new_food_request)
         db.session.commit()
