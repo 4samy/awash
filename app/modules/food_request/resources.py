@@ -125,6 +125,7 @@ class DeliverFoodRequest(Resource):
             abort(400, "Could not find food request for this driver")
 
         food_request.delivered = True
+        food_request.status = "Driver completed delivery"
 
         db.session.commit()
 
