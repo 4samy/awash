@@ -81,6 +81,9 @@ class UpdateRestaurantInfo(Resource):
 
         data = request.get_json()
 
+        if not data:
+            abort(400, "Missing restaurant data")
+
         user = g.user
 
         try:
@@ -93,7 +96,7 @@ class UpdateRestaurantInfo(Resource):
                 user.address = data["address"]
 
         except KeyError:
-            abort(400, "Missing info")
+            abort(400, "Missing restaurant data")
 
         db.session.commit()
 

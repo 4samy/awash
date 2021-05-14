@@ -81,6 +81,9 @@ class UpdateDriverInfo(Resource):
 
         data = request.get_json()
 
+        if not data:
+            abort(400, "Missing driver data")
+
         user = g.user
 
         try:
