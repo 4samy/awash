@@ -40,28 +40,93 @@ class GetAllFoodRequests(Resource):
         return resp, 200
 
 
-# @food_request_api.route("/create-food-request")
-# class CreateNewFoodRequest(Resource):
+@food_request_api.route("/create-food-request")
+class CreateNewFoodRequest(Resource):
 
-#     decorators = [requires_auth]
+    decorators = [requires_auth]
 
-#     def get(self):
+    def post(self):
+        """Create a new food request"""
 
-#         print(g.user.id)
+        data = request.get_json()
+        print("create food: ", data)
 
-#         return
+        user = g.user
 
-#     def post(self):
-#         """Create a new food request"""
+        if not data:
+            abort(400, "Missing necessary food request data")
 
-#         data = request.get_json()
-#         print("create food: ", data)
+        try:
+            food_request = {}
+            food_request["restaurant_id"] = user.id
+            food_request["food_type"] = data["food_type"]
+            food_request["food_quantity"] = data["food_quantity"]
+            food_request["pickup_time"] = data["pickup_time"]
 
-#         user = g.user
+        except KeyError:
+            abort(400, "Missing necessary data")
+
+        new_food_request = FoodRequest(food_request)
+
+        db.session.add(new_food_request)
+        db.session.commit()
+
+        return make_response(f"New Food Request successfully created", 200)
 
 
+@food_request_api.route("/update-status")
+class UpdateStatus(Resource):
 
-#         if not data:
-#             abort(400, "Missing necessary food request data")
+    decorators = [requires_auth]
 
+    def put(self):
+        """Update Status of a food request"""
+
+        data = request.get_json()
+        print("status update: ", data)
+
+        user = g.user
+
+        if not data:
+            abort(400, "Missing status update")
+
+        if "status_update" not in data.keys():
+            abort(400, "Missing status update")
+
+        food_request = FoodRequest.query.filter_by(
+            delivered=False
+        ).filter_by(driver_id=user.id).first()
+
+        if not food_request:
+            abort(400, "Could not find food request for this driver")
+
+        food_request.status = data["status_update"]
+
+        db.session.commit()
+
+        return make_response(f"Food Request for restaurant {food_request.restaurant.name} updated", 200)
+
+
+@food_request_api.route("/complete-delivery")
+class DeliverFoodRequest(Resource):
+
+    decorators = [requires_auth]
+
+    def put(self):
+        """Update delivered status of food request"""
+
+        user = g.user
+
+        food_request = FoodRequest.query.filter_by(
+            delivered=False
+        ).filter_by(driver_id=user.id).first()
+
+        if not food_request:
+            abort(400, "Could not find food request for this driver")
+
+        food_request.delivered = True
+
+        db.session.commit()
+
+        return make_response(f"Food Request for restaurant {food_request.restaurant.name} completed", 200)
 

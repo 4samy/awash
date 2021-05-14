@@ -32,7 +32,6 @@ class CreateRestaurant(Resource):
                 abort(400, f"Restaurant with email '{email}' already exists")
             else:
                 new_user = Restaurant(**data)
-                pass
                 db.session.add(new_user)
                 db.session.commit()
 

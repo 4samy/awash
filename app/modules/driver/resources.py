@@ -32,7 +32,6 @@ class CreateDriver(Resource):
                 abort(400, f"Restaurant with email '{email}' already exists")
             else:
                 new_user = Driver(**data)
-                pass
                 db.session.add(new_user)
                 db.session.commit()
 

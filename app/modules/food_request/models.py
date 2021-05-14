@@ -1,5 +1,6 @@
 import settings
 
+from app.modules.utils import utcnow_datetime_aware
 from app.extensions import db
 
 STATUS_DEFAULT = "Pending Driver Accept"
@@ -19,7 +20,11 @@ class FoodRequest(db.Model):
         nullable=True
     )
     # driver = db.relationship("Driver", lazy="subquery")
-    date_created = db.Column(db.DateTime(timezone=True))
+    date_created = db.Column(
+        db.DateTime(timezone=True),
+        default=utcnow_datetime_aware,
+        nullable=False
+    )
     delivered = db.Column(db.Boolean, nullable=False, default=False)
     point_value = db.Column(db.Integer, nullable=False, default=10)
     driver_eta_restaurant = db.Column(db.Integer)
