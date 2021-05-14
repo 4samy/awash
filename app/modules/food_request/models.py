@@ -2,6 +2,8 @@ import settings
 
 from app.extensions import db
 
+STATUS_DEFAULT = "Pending Driver Accept"
+
 
 class FoodRequest(db.Model):
     __tablename__ = "food_requests"
@@ -22,6 +24,10 @@ class FoodRequest(db.Model):
     point_value = db.Column(db.Integer, nullable=False, default=0)
     driver_eta_restaurant = db.Column(db.Integer)
     driver_eta_dropoff = db.Column(db.Integer)
+    status = db.Column(db.Text, nullable=True, default=STATUS_DEFAULT)
+    food_type = db.Column(db.String(256), nullable=True)
+    food_quantity = db.Column(db.String(254), nullable=True)
+    pickup_time = db.Column(db.String(60), nullable=True)
 
     @staticmethod
     def identify(food_request_id):
@@ -32,6 +38,4 @@ class FoodRequest(db.Model):
 
     def __repr__(self):
         return f"<Food Request id: {self.id}>"
-
-
 

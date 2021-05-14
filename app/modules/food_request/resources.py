@@ -38,3 +38,30 @@ class GetAllFoodRequests(Resource):
             "message": "Successful get of all food requests"
         }
         return resp, 200
+
+
+# @food_request_api.route("/create-food-request")
+# class CreateNewFoodRequest(Resource):
+
+#     decorators = [requires_auth]
+
+#     def get(self):
+
+#         print(g.user.id)
+
+#         return
+
+#     def post(self):
+#         """Create a new food request"""
+
+#         data = request.get_json()
+#         print("create food: ", data)
+
+#         user = g.user
+
+
+
+#         if not data:
+#             abort(400, "Missing necessary food request data")
+
+

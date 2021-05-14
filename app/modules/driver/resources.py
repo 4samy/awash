@@ -9,6 +9,11 @@ from .models import Driver
 from app.modules.restaurant.models import Restaurant
 from app.decorators import requires_auth
 
+from app.modules.food_request.models import FoodRequest
+from app.modules.food_request.schemas import FoodRequestSchema
+
+from .schemas import DriverSchema
+
 
 @driver_api.route("/create-new-driver")
 class CreateDriver(Resource):
@@ -40,16 +45,29 @@ class CreateDriver(Resource):
 
 
 @driver_api.route("/info")
-class DriverObject(Resource):
+class GetDriverObject(Resource):
 
     decorators = [requires_auth]
+    driver_schema = DriverSchema()
+    food_request_schema = FoodRequestSchema()
 
     def get(self):
         """Get driver object"""
 
         user = g.user
 
-        print(user)
+        user_schema = self.driver_schema.dump(user).data
 
-        return user.id
+        food = FoodRequest.query.filter_by(driver_id=user.id).first()
+
+        user_schema["food_request"] = {}
+
+        if food:
+            food_request = self.food_request_schema.dump(food).data
+
+            user_schema["food_request"] = food_request
+
+        print(f"Driver schema: {user_schema}")
+
+        return user_schema
 

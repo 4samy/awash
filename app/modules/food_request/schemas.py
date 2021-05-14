@@ -15,6 +15,10 @@ class FoodRequestSchema(Schema):
             "point_value",
             "driver_eta_restaurant",
             "driver_eta_dropoff",
+            "status",
+            "food_type",
+            "food_quantity",
+            "pickup_time",
             "restaurant",
             "driver"
         )
@@ -29,5 +33,9 @@ class FoodRequestSchema(Schema):
     point_value = fields.Int(required=False)
     driver_eta_restaurant = fields.Int(required=False)
     driver_eta_dropoff = fields.Int(required=False)
+    status = fields.Str(required=False)
+    food_type = fields.Str(required=False)
+    food_quantity = fields.Str(required=False)
+    pickup_time = fields.Str(required=False)
     restaurant = fields.Nested(RestaurantSchema, only=("id", "email", "name", "address", "phone_number"))
     driver = fields.Nested(DriverSchema, only=("id", "email", "first_name", "last_name", "car_description", "reward_points"))
