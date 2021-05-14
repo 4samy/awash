@@ -21,13 +21,14 @@ class FoodRequest(db.Model):
     # driver = db.relationship("Driver", lazy="subquery")
     date_created = db.Column(db.DateTime(timezone=True))
     delivered = db.Column(db.Boolean, nullable=False, default=False)
-    point_value = db.Column(db.Integer, nullable=False, default=0)
+    point_value = db.Column(db.Integer, nullable=False, default=10)
     driver_eta_restaurant = db.Column(db.Integer)
     driver_eta_dropoff = db.Column(db.Integer)
     status = db.Column(db.Text, nullable=True, default=STATUS_DEFAULT)
     food_type = db.Column(db.String(256), nullable=True)
     food_quantity = db.Column(db.String(254), nullable=True)
     pickup_time = db.Column(db.String(60), nullable=True)
+    shelter = db.Column(db.String(254), nullable=True)
 
     @staticmethod
     def identify(food_request_id):
