@@ -90,7 +90,7 @@ class AcceptFoodRequest(Resource):
         if "restaurant_name" not in data.keys():
             abort(400, "Missing restaurant name")
 
-        if "status" not in data.keys():
+        if "shelter" not in data.keys():
             abort(400, "Missing status")
 
         if "driver_eta_restaurant" not in data.keys():
@@ -109,6 +109,7 @@ class AcceptFoodRequest(Resource):
 
         food_request["driver_id"] = user.id
         food_request["status"] = f"Accepted by {user.first_name}"
+        food_request["shelter"] = data["shelter"]
         food_request["driver_eta_restaurant"] = data["driver_eta_restaurant"]
 
         db.session.commit()
