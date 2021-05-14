@@ -51,7 +51,7 @@ def generate_token(payload, context, secret_key=None, expires_in=None):
     token = serializer.dumps(payload)
     token_utf8 = token.decode("utf-8")
 
-    return f"{salt}: {token_utf8}"
+    return f"{salt}:{token_utf8}"
 
 
 def _extract_parts(token):
