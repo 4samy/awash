@@ -70,3 +70,31 @@ class GetDriverObject(Resource):
 
         return user_schema
 
+
+@driver_api.route("/update-info")
+class UpdateDriverInfo(Resource):
+
+    decorators = [requires_auth]
+
+    def put(self):
+        """Update driver data"""
+
+        data = request.get_json()
+
+        user = g.user
+
+        try:
+
+            if data["first_name"] != "":
+                user.first_name = data["first_name"]
+            if data["phone_number"] != "":
+                user.phone_number = data["phone_number"]
+            if data["car_description"] != "":
+                user.car_description = data["car_description"]
+
+        except KeyError:
+            abort(400, "Missing info")
+
+        db.session.commit()
+
+        return make_response(f"Driver {user.first_name} successfully updated info", 200)

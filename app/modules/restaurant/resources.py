@@ -70,3 +70,31 @@ class GetRestaurantObject(Resource):
 
         return user_schema
 
+
+@restaurant_api.route("/update-info")
+class UpdateRestaurantInfo(Resource):
+
+    decorators = [requires_auth]
+
+    def put(self):
+        """Update restaurant data"""
+
+        data = request.get_json()
+
+        user = g.user
+
+        try:
+
+            if data["name"] != "":
+                user.name = data["name"]
+            if data["phone_number"] != "":
+                user.phone_number = data["phone_number"]
+            if data["address"] != "":
+                user.address = data["address"]
+
+        except KeyError:
+            abort(400, "Missing info")
+
+        db.session.commit()
+
+        return make_response(f"Restaurant {user.name} successfully updated info", 200)
