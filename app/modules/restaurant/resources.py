@@ -80,6 +80,7 @@ class UpdateRestaurantInfo(Resource):
         """Update restaurant data"""
 
         data = request.get_json()
+        print("update restaurant: ", data)
 
         if not data:
             abort(400, "Missing restaurant data")

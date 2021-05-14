@@ -80,6 +80,7 @@ class UpdateDriverInfo(Resource):
         """Update driver data"""
 
         data = request.get_json()
+        print("update driver: ", data)
 
         if not data:
             abort(400, "Missing driver data")
@@ -96,7 +97,7 @@ class UpdateDriverInfo(Resource):
                 user.car_description = data["car_description"]
 
         except KeyError:
-            abort(400, "Missing info")
+            abort(400, "Missing driver data")
 
         db.session.commit()
 
