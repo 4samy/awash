@@ -102,3 +102,12 @@ class UpdateDriverInfo(Resource):
         db.session.commit()
 
         return make_response(f"Driver {user.first_name} successfully updated info", 200)
+
+
+@driver_api.route("/get-pending-deliveries")
+class GetPendingDeliveries(Resource):
+
+    decorators = [requires_auth]
+
+    def get(self):
+        return

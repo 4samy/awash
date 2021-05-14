@@ -74,6 +74,51 @@ class CreateNewFoodRequest(Resource):
         return make_response(f"New Food Request successfully created", 200)
 
 
+@food_request_api.route("/accept-request")
+class AcceptFoodRequest(Resource):
+
+    decorators = [requires_auth]
+
+    def put(self):
+
+        data = request.get_json()
+        print("accept request: ", data)
+
+        if not data:
+            abort(400, "Missing data")
+
+        if "restaurant_name" not in data.keys():
+            abort(400, "Missing restaurant name")
+
+        if "status" not in data.keys():
+            abort(400, "Missing status")
+
+        if "driver_eta_restaurant" not in data.keys():
+            abort(400, "Missing driver_eta_restaurant")
+
+        restaurant_name = data["restaurant_name"]
+
+        restaurant = Restaurant.query.filter_by(name=restaurant_name).first()
+
+        food_request = FoodRequest.query.filter_by(
+            delivered=False
+        ).filter_by(restaurant_id=restaurant.id).first()
+
+        # Driver user
+        user = g.user
+
+        food_request["driver_id"] = user.id
+        food_request["status"] = f"Accepted by {user.first_name}"
+        food_request["driver_eta_restaurant"] = data["driver_eta_restaurant"]
+
+        db.session.commit()
+
+        return make_response(f"Successfully accepted request by {user.first_name}", 200)
+
+
+
+
+
 @food_request_api.route("/update-status")
 class UpdateStatus(Resource):
 

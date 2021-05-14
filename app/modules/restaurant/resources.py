@@ -1,5 +1,5 @@
 from flask import g, request, make_response
-from flask_restplus import Resource
+from flask_restplus import Resource\
 
 from app.extensions import db
 from app.extensions.api import abort
@@ -13,6 +13,8 @@ from app.modules.food_request.models import FoodRequest
 from app.modules.food_request.schemas import FoodRequestSchema
 
 from .schemas import RestaurantSchema
+
+import json
 
 
 @restaurant_api.route("/create-new-restaurant")
@@ -67,6 +69,7 @@ class GetRestaurantObject(Resource):
             user_schema["food_request"] = food_request
 
         print(f"Restaurant Schema: {user_schema}")
+        print(json.dumps(user_schema, indent=4))
 
         return user_schema
 
