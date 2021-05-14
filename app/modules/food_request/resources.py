@@ -117,9 +117,6 @@ class AcceptFoodRequest(Resource):
         return make_response(f"Successfully accepted request by {user.first_name}", 200)
 
 
-
-
-
 @food_request_api.route("/update-status")
 class UpdateStatus(Resource):
 

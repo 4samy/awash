@@ -108,6 +108,20 @@ class UpdateDriverInfo(Resource):
 class GetPendingDeliveries(Resource):
 
     decorators = [requires_auth]
+    food_request_schema = FoodRequestSchema()
 
     def get(self):
-        return
+
+        # Driver
+        user = g.user
+
+        food_request = FoodRequest.query.filter_by(
+            delivered=False
+        ).filter_by(driver_id=user.id).first()
+
+        resp = {
+            "food_request": self.food_request_schema.dump(food_request).data,
+            "message": "Successfully retrieved pending delivery"
+        }
+
+        return resp, 200
