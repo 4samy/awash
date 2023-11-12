@@ -17,7 +17,7 @@ celery==5.3.5
 certifi==2018.1.18
 cffi==1.16.0
 chardet==3.0.4
-click==6.7
+click==8.1.2
 cryptography==2.8
 decorator==4.2.1
 dnspython==1.16.0
