@@ -1,12 +1,6 @@
-import os
+from werkzeug.contrib.fixers import ProxyFix
 
-import settings
-
-from app import create_app, socketio
+from app import create_app
 
 app = create_app()
-
-
-if __name__ == '__main__':
-    socketio.run(app)
-
+app.wsgi_app = ProxyFix(app.wsgi_app)
