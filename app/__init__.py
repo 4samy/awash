@@ -1,23 +1,17 @@
 import flask
+
 import settings
 
 from flask_socketio import SocketIO
 
-from app.middlewares import (
-    BasicAuthenticationMiddleware,
-    JWTAuthenticationMiddleware
-)
-
 socketio = SocketIO()
 
+def create_app():
 
-def create_app(log_info=True, **kwargs):
-
-    app = flask.Flask(__name__, **kwargs)
+    app = flask.Flask(__name__)
 
     app.config.update(
-        SQLALCHEMY_DATABASE_URI=settings.SQLALCHEMY_DATABASE_URI,
-        SQLALCHEMY_TRACK_MODIFICATIONS=settings.SQLALCHEMY_TRACK_MODIFICATIONS
+        SQLALCHEMY_DATABASE_URI=settings.SQLALCHEMY_DATABASE_URI
     )
 
     app.url_map.strict_slashes = False
@@ -28,25 +22,14 @@ def create_app(log_info=True, **kwargs):
     from . import modules
     modules.init_app(app)
 
-    # app.logger.setLevel(logging.INFO)
+    print(f"Successfully loaded modules: {settings.ENABLED_MODULES}")
 
-    app.logger.info("Successfully loaded modules: {}".format(
-        settings.ENABLED_MODULES
-    ))
-
-    app.before_request_funcs = {
-        None: [
-            BasicAuthenticationMiddleware(app),
-            JWTAuthenticationMiddleware(app)
-        ]
-    }
-
-    app.logger.info("App is up and running!")
+    print(f"App is up and running")
 
     socketio.init_app(
         app=app,
         cors_allowed_origins='*',
-        logger=True
+        logger=False
     )
 
     return app
