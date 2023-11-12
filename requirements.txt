@@ -1,4 +1,4 @@
-alembic==0.9.8
+alembic==1.9.0
 amqp==2.2.2
 aniso8601==3.0.0
 appnope==0.1.0
