@@ -1,6 +1,6 @@
-init="flask db init"
-migrate="flask db migrate"
-upgrade="flask db upgrade"
+init: flask db init
+migrate: flask db migrate
+upgrade: flask db upgrade
 release: flask db upgrade
 web: gunicorn wsgi:app
 
