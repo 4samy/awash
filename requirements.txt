@@ -99,4 +99,4 @@ vine==1.1.4
 wcwidth==0.1.7
 Werkzeug==3.0.0
 zipp==3.4.1
-simplejson==3.19.2
+simplejson==3.17.2
