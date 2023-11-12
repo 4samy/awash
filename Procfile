@@ -1,4 +1,4 @@
-release: flask db upgrade
+release: flask db_upgrade
 web: gunicorn wsgi:app
 
 db_init: python -c "from api import db; db.create_all()"
