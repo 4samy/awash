@@ -47,7 +47,7 @@ ipython==6.2.1
 ipython-genutils==0.2.0
 itsdangerous==1.1.0
 jedi==0.11.1
-Jinja2==2.10.3
+Jinja2==3.1.2
 jmespath==0.9.3
 jsonschema==2.6.0
 kombu==4.1.0
